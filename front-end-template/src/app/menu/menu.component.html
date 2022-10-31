@@ -1,0 +1,10 @@
+<ng-container *ngIf="!loading">
+  <button mat-icon-button [matMenuTriggerFor]="menu.childMenu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <app-menu-child
+    #menu
+    [options]="options"
+    (click)="valueChanged($event)"
+  ></app-menu-child
+></ng-container>

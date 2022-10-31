@@ -1,0 +1,32 @@
+<div class="container">
+  <mat-label>{{ label }}</mat-label>
+</div>
+<mat-form-field appearance="fill">
+  <mat-label>{{ placeholder }}</mat-label>
+  <mat-chip-list #chipList>
+    <mat-chip *ngFor="let option of value" (removed)="remove(option)">
+      {{ option }}
+      <button matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip>
+    <input
+      #optionInput
+      [formControl]="myFormControl"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+    />
+  </mat-chip-list>
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    (optionSelected)="valueChanged($event)"
+  >
+    <mat-option
+      *ngFor="let option of filteredOptions | async"
+      [value]="options"
+    >
+      {{ option }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

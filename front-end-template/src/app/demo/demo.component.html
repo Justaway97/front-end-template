@@ -1,0 +1,65 @@
+<div>
+  <button mat-icon-button (click)="printForm()">print form</button>
+</div>
+<div>
+  <app-auto-complete
+    [options]="autoCompleteOptions"
+    [placeholder]="autoCompletePlaceholder"
+    [disabled]="autoCompleteDisabled"
+    [label]="autoCompleteLabel"
+    (change)="onChange($event, 'autoComplete')"
+  ></app-auto-complete>
+</div>
+<div>
+  <app-button [label]="buttonLabel" (click)="buttonClick($event)"></app-button>
+</div>
+<div>
+  <app-button
+    [label]="buttonIconLabel"
+    (click)="buttonClick($event)"
+    [isIcon]="true"
+  ></app-button>
+</div>
+<app-button-toggle
+  [options]="buttonToggleOptions"
+  (change)="onChange($event, 'buttonToggle')"
+></app-button-toggle>
+<div>
+  <app-checkbox
+    [label]="checkboxLabel"
+    [options]="checkboxOptions"
+    (change)="onChange($event, 'checkbox')"
+  ></app-checkbox>
+</div>
+<div>
+  <app-multi-auto-complete
+    [options]="multiAutoCompleteOptions"
+    [label]="multiAutoCompleteLabel"
+    [placeholder]="multiAutoCompletePlaceholder"
+    (change)="onChange($event, 'multiAutoComplete')"
+  ></app-multi-auto-complete>
+</div>
+<div>
+  <app-date-picker
+    [label]="datePickerLabel"
+    [placeholder]="datePickerPlaceholder"
+    (change)="onChange($event, 'datePicker')"
+  ></app-date-picker>
+</div>
+
+<div>
+  <app-input
+    [label]="inputLabel"
+    [placeholder]="inputPlaceholder"
+    (change)="onChange($event, 'input')"
+  ></app-input>
+</div>
+<div>
+  <app-menu [options]="menuOptions" (change)="menuOutput($event)"></app-menu>
+</div>
+<div>
+  <app-radio-button
+    [label]="radioLabel"
+    [options]="radioOptions"
+  ></app-radio-button>
+</div>

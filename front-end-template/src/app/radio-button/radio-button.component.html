@@ -1,0 +1,12 @@
+<div class="label">
+  <mat-label>{{ label }}</mat-label>
+</div>
+<mat-radio-group>
+  <div [class]="layout === 'vertical' ? 'radio-vertical' : 'radio'">
+    <ng-container *ngFor="let option of options">
+      <mat-radio-button class="option" [value]="option">
+        {{ option }}
+      </mat-radio-button>
+    </ng-container>
+  </div>
+</mat-radio-group>

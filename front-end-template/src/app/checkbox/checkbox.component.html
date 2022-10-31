@@ -1,0 +1,22 @@
+<div class="label">
+  <mat-label>{{ label }}</mat-label>
+</div>
+<div [class]="layout === 'vertical' ? 'checkbox-vertical' : 'checkbox'">
+  <ng-container *ngFor="let opt of options">
+    <mat-checkbox
+      class="option"
+      [value]="opt"
+      (change)="arrayValueChanged(opt)"
+    >
+      {{ opt }}
+    </mat-checkbox>
+  </ng-container>
+</div>
+<!-- <mat-option *ngFor="let opt of options; let i = index" [value]="options">
+  <mat-checkbox
+    [checked]="selected === i"
+    (change)="onChange(topping); selected = i"
+  >
+    {{ topping }}</mat-checkbox
+  >
+</mat-option> -->
