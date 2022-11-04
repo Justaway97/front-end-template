@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { ChangeDetectorRef, Component, SimpleChange } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { BaseComponent } from '../base/base.component';
 
 @Component({
@@ -7,10 +9,19 @@ import { BaseComponent } from '../base/base.component';
   styleUrls: ['./date-picker.component.scss'],
 })
 export class DatePickerComponent extends BaseComponent {
-  constructor() {
+  dateControl: FormControl;
+  getTomorrow() {}
+  constructor(protected cdr: ChangeDetectorRef, private datePipe: DatePipe) {
     super();
     if (this.placeholder === '') {
       this.placeholder = 'Choose a date';
+    }
+  }
+
+  // any value change need to reflect in html can use ngOnChanges to detect the changes
+  ngOnChanges(changes: SimpleChange) {
+    if (typeof this.value !== 'object') {
+      this.value = this.datePipe.transform(new Date(+this.value), 'yyyy-MM-dd');
     }
   }
 

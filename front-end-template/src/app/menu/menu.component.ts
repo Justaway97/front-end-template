@@ -14,6 +14,7 @@ import { BaseComponent } from '../base/base.component';
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent extends BaseComponent {
+  @Input() icon: any;
   @Input() options: any[];
   loading = true;
 

@@ -27,10 +27,12 @@ export class FormComponent implements OnInit {
   }
 
   initForm() {
+    console.log(this.formData);
     let dataKeys = Object.keys(this.formData);
     for (const key of dataKeys) {
       this.form.addControl(key, new FormControl(this.formData[key]));
     }
+    console.log(this.form);
   }
 
   resetForm() {

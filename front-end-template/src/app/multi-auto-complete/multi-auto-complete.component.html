@@ -1,6 +1,8 @@
-<div class="container">
-  <mat-label>{{ label }}</mat-label>
-</div>
+<ng-container *ngIf="label">
+  <div class="label">
+    <mat-label>{{ label }}</mat-label>
+  </div>
+</ng-container>
 <mat-form-field appearance="fill">
   <mat-label>{{ placeholder }}</mat-label>
   <mat-chip-list #chipList>

@@ -9,8 +9,13 @@ import {
   buttonIconLabel,
   buttonLabel,
   buttonToggleOptions,
+  buttonTooltip,
+  buttonTooltipPosition,
+  checkboxChecked1,
   checkboxLabel,
+  checkboxLabel1,
   checkboxOptions,
+  checkboxOptions1,
   datePickerLabel,
   datePickerPlaceholder,
   inputLabel,
@@ -21,6 +26,9 @@ import {
   multiAutoCompletePlaceholder,
   radioLabel,
   radioOptions,
+  tableDataSource,
+  tableHeaders,
+  toolbarItems,
 } from './auto-complete.component.constant';
 import { formData } from './demo.component.constant';
 
@@ -53,6 +61,8 @@ export class DemoComponent extends FormComponent implements OnInit {
   //button
   buttonLabel = buttonLabel;
   buttonIconLabel = buttonIconLabel;
+  buttonTooltip = buttonTooltip;
+  buttonTooltipPosition = buttonTooltipPosition;
 
   //button toggle
   buttonToggleOptions = buttonToggleOptions;
@@ -60,6 +70,9 @@ export class DemoComponent extends FormComponent implements OnInit {
   //checkbox
   checkboxLabel = checkboxLabel;
   checkboxOptions = checkboxOptions;
+  checkboxLabel1 = checkboxLabel1;
+  checkboxOptions1 = checkboxOptions1;
+  checkboxChecked1 = checkboxChecked1;
 
   //multi auto complete
   multiAutoCompleteOptions = multiAutoCompleteOptions;
@@ -81,6 +94,13 @@ export class DemoComponent extends FormComponent implements OnInit {
   radioLabel = radioLabel;
   radioOptions = radioOptions;
 
+  //table
+  tableDataSource = tableDataSource;
+  tableHeaders = tableHeaders;
+
+  //toolbar
+  toolbarItems = toolbarItems;
+
   autoCompleteChange($event: any) {
     console.log($event.option.value);
   }
@@ -97,5 +117,30 @@ export class DemoComponent extends FormComponent implements OnInit {
 
   menuOutput($event: any) {
     console.log('demo', $event);
+  }
+
+  onCheckboxChange($event: any) {
+    console.log($event);
+    const index = this.checkboxOptions1.findIndex(
+      (option) => option === $event[$event.length - 1]
+    );
+    if (index === 0) {
+      let checkboxControl = this.form.get('checkbox')?.value;
+      this.checkboxOptions.forEach((option, index) => {
+        if (!checkboxControl.includes(option as never)) {
+          checkboxControl.push(option as never);
+        } else {
+          checkboxControl = checkboxControl.filter(
+            (check: any) => check !== option
+          );
+        }
+      });
+      checkboxControl = checkboxControl;
+    }
+    // this.checkboxOptions.forEach((_, index) => {
+    //   this.checkboxOptions[index].check = $event[0].check; // can select which checkbox to have the check all function
+    // });
+    // this.checkboxOptions = [...this.checkboxOptions];
+    // console.log(this.checkboxOptions);
   }
 }

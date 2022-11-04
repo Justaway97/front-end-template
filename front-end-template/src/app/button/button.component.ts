@@ -7,6 +7,8 @@ import { BaseComponent } from '../base/base.component';
   styleUrls: ['./button.component.scss'],
 })
 export class ButtonComponent extends BaseComponent {
+  @Input() tooltip: any;
+  @Input() tooltipPosition: any;
   @Input() color: string = 'primary';
   @Input() isIcon: boolean = false;
   constructor() {

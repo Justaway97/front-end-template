@@ -12,7 +12,7 @@ export class BaseComponent implements ControlValueAccessor {
   @Input() disabled = false;
   @Input() label: string;
 
-  value: any;
+  @Input() value: any;
   constructor() {}
 
   ngOnInit(): void {}

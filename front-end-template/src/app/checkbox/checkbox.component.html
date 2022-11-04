@@ -1,14 +1,18 @@
-<div class="label">
-  <mat-label>{{ label }}</mat-label>
-</div>
+<ng-container *ngIf="label">
+  <div class="label">
+    <mat-label>{{ label }}</mat-label>
+  </div>
+</ng-container>
 <div [class]="layout === 'vertical' ? 'checkbox-vertical' : 'checkbox'">
   <ng-container *ngFor="let opt of options">
     <mat-checkbox
       class="option"
-      [value]="opt"
+      [checked]="value.includes(opt)"
       (change)="arrayValueChanged(opt)"
     >
-      {{ opt }}
+      <ng-container *ngIf="displayOption">
+        {{ opt }}
+      </ng-container>
     </mat-checkbox>
   </ng-container>
 </div>

@@ -1,4 +1,7 @@
 <div>
+  <app-toolbar [item]="toolbarItems"></app-toolbar>
+</div>
+<div>
   <button mat-icon-button (click)="printForm()">print form</button>
 </div>
 <div>
@@ -11,24 +14,42 @@
   ></app-auto-complete>
 </div>
 <div>
-  <app-button [label]="buttonLabel" (click)="buttonClick($event)"></app-button>
+  <app-button
+    [tooltip]="buttonTooltip"
+    [tooltipPosition]="buttonTooltipPosition"
+    [label]="buttonLabel"
+    (click)="buttonClick($event)"
+  ></app-button>
 </div>
 <div>
   <app-button
+    [tooltip]="buttonTooltip"
+    [tooltipPosition]="buttonTooltipPosition"
     [label]="buttonIconLabel"
     (click)="buttonClick($event)"
     [isIcon]="true"
   ></app-button>
 </div>
-<app-button-toggle
-  [options]="buttonToggleOptions"
-  (change)="onChange($event, 'buttonToggle')"
-></app-button-toggle>
+<div>
+  <app-button-toggle
+    [options]="buttonToggleOptions"
+    (change)="onChange($event, 'buttonToggle')"
+  ></app-button-toggle>
+</div>
 <div>
   <app-checkbox
     [label]="checkboxLabel"
     [options]="checkboxOptions"
+    [value]="form.get('checkbox')?.value"
     (change)="onChange($event, 'checkbox')"
+  ></app-checkbox>
+</div>
+<div>
+  <app-checkbox
+    [label]="checkboxLabel1"
+    [options]="checkboxOptions1"
+    [value]="checkboxChecked1"
+    (change)="onCheckboxChange($event)"
   ></app-checkbox>
 </div>
 <div>
@@ -43,6 +64,7 @@
   <app-date-picker
     [label]="datePickerLabel"
     [placeholder]="datePickerPlaceholder"
+    value="1667488241753"
     (change)="onChange($event, 'datePicker')"
   ></app-date-picker>
 </div>
@@ -55,11 +77,22 @@
   ></app-input>
 </div>
 <div>
-  <app-menu [options]="menuOptions" (change)="menuOutput($event)"></app-menu>
+  <app-menu
+    icon="more_vert"
+    [options]="menuOptions"
+    (change)="menuOutput($event)"
+  ></app-menu>
 </div>
 <div>
   <app-radio-button
     [label]="radioLabel"
+    [value]="form.get('radio')?.value"
     [options]="radioOptions"
   ></app-radio-button>
+</div>
+<div>
+  <app-table
+    [dataSource]="tableDataSource"
+    [headers]="tableHeaders"
+  ></app-table>
 </div>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChange } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable, startWith, map } from 'rxjs';
 import { BaseComponent } from '../base/base.component';
@@ -25,6 +25,12 @@ export class AutoCompleteComponent extends BaseComponent {
         });
       })
     );
+  }
+
+  ngOnChanges(changes: SimpleChange) {
+    if (this.value !== undefined) {
+      this.inputControl.patchValue(this.value);
+    }
   }
 
   override formatAndReturnValue(): void {

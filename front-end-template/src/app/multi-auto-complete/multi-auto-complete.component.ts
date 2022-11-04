@@ -49,7 +49,6 @@ export class MultiAutoCompleteComponent extends BaseComponent {
     }
     this.optionInput.nativeElement.value = '';
     this.myFormControl.setValue('');
-    console.log(this.myFormControl);
-    super.valueChanged(this.value);
+    this.formatAndReturnValue();
   }
 }
