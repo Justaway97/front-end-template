@@ -1,15 +1,15 @@
-<ng-container *ngIf="label">
+<form class="example-form">
   <div class="label">
     <mat-label>{{ label }}</mat-label>
   </div>
-</ng-container>
-<mat-form-field appearance="fill">
-  <mat-label>{{ label }}</mat-label>
-  <input
-    #myInput
-    matInput
-    [placeholder]="placeholder"
-    (blur)="onBlur()"
-    [value]="value"
-  />
-</mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>{{ label }}</mat-label>
+    <input
+      #myInput
+      matInput
+      [placeholder]="placeholder"
+      [formControl]="inputControl"
+      (blur)="onBlur()"
+    />
+  </mat-form-field>
+</form>

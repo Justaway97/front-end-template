@@ -7,7 +7,7 @@
   <ng-container *ngFor="let opt of options">
     <mat-checkbox
       class="option"
-      [checked]="value.includes(opt)"
+      [checked]="value?.includes(opt)"
       (change)="arrayValueChanged(opt)"
     >
       <ng-container *ngIf="displayOption">

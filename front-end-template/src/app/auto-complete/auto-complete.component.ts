@@ -1,7 +1,17 @@
-import { Component, Input, OnInit, SimpleChange } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, startWith, map } from 'rxjs';
 import { BaseComponent } from '../base/base.component';
+import { AppService } from '../services/app.service';
+import { CodeService } from '../services/code.service';
 
 @Component({
   selector: 'app-auto-complete',
@@ -9,32 +19,35 @@ import { BaseComponent } from '../base/base.component';
   styleUrls: ['./auto-complete.component.scss'],
 })
 export class AutoCompleteComponent extends BaseComponent {
-  @Input() options: string[];
-
   inputControl = new FormControl('');
   filterOptions: Observable<string[]>;
 
-  constructor() {
-    super();
-    this.filterOptions = this.inputControl.valueChanges.pipe(
-      startWith(''),
-      map((value) => {
-        const v = value?.toLowerCase() as string;
-        return this.options.filter((option) => {
-          return option.toLowerCase().includes(v);
-        });
-      })
-    );
+  constructor(
+    protected override appService: AppService,
+    protected override snackBar: MatSnackBar,
+    protected override cdr: ChangeDetectorRef,
+    protected override codeService: CodeService
+  ) {
+    super(appService, snackBar, cdr, codeService);
   }
 
-  ngOnChanges(changes: SimpleChange) {
-    if (this.value !== undefined) {
+  override ngOnChanges(changes: SimpleChanges) {
+    super.ngOnChanges(changes);
+    if (this.value !== undefined && typeof this.value == 'string') {
       this.inputControl.patchValue(this.value);
     }
-  }
-
-  override formatAndReturnValue(): void {
-    this.value = this.value[0].option.value;
-    super.formatAndReturnValue();
+    setTimeout(() => {
+      if (this.options) {
+        this.filterOptions = this.inputControl.valueChanges.pipe(
+          startWith(this.value ? this.value : ''),
+          map((value) => {
+            const v = value?.toString().toLowerCase() as string;
+            return this.options.filter((option) => {
+              return option.toLowerCase().includes(v);
+            });
+          })
+        );
+      }
+    }, 0);
   }
 }

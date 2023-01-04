@@ -1,51 +1,62 @@
-import { Component, Input, OnInit, SimpleChange } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { FormComponent } from '../form/form.component';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChange,
+  ViewChild,
+} from '@angular/core';
+import { MatTable } from '@angular/material/table';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
 })
-export class TableComponent extends FormComponent {
-  @Input() headers: string[];
+export class TableComponent implements OnInit {
+  @Input() headers: any[];
   @Input() dataSource: any[];
+  @Output() onTableChange = new EventEmitter();
+
+  header: string[];
 
   // checkbox
-  headerCheckbox = false;
   checkboxValue: any[] = [];
   checkboxOptions: any[] = [];
 
-  constructor(protected override fb: FormBuilder) {
-    super(fb);
-  }
+  constructor() {}
 
   ngOnChanges(changes: SimpleChange) {
-    let allChecked = true;
-    this.dataSource.forEach((data) => {
-      if (allChecked) {
-        allChecked = data.select.value;
-      } else {
-        return;
-      }
-    });
     this.dataSource.forEach((data, index) => {
-      if (data.select.value === true) {
+      if (data.select?.value === true) {
         this.checkboxValue.push(index);
       }
       this.checkboxOptions.push(index);
     });
-    this.headerCheckbox = allChecked;
-    console.log(this.headerCheckbox);
+    if (this.headers) {
+      this.header = this.headers.map((h) => h.header);
+    }
   }
 
-  onHeaderCheckboxChange($event: any) {
-    console.log($event);
+  ngOnInit(): void {}
+
+  onHeaderCheckboxChange($event: any, header: any, index: number) {
+    this.onTableChange.emit({
+      $event: this.dataSource[index][header]?.value == true ? false : true,
+      header,
+      index,
+    });
   }
 
   menuOutput($event: any) {
     console.log($event);
   }
 
-  override ngOnInit(): void {}
+  onChange($event: any, header: any, index?: number) {
+    console.log(index);
+    if (typeof $event != 'object' || $event instanceof Array)
+      this.onTableChange.emit({ $event, header, index });
+  }
 }

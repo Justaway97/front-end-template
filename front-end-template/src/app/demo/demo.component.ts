@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Form, FormBuilder } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormComponent } from '../form/form.component';
+import { AppService } from '../services/app.service';
 import {
   autoCompleteDisabled,
   autoCompleteLabel,
@@ -26,8 +28,6 @@ import {
   multiAutoCompletePlaceholder,
   radioLabel,
   radioOptions,
-  tableDataSource,
-  tableHeaders,
   toolbarItems,
 } from './auto-complete.component.constant';
 import { formData } from './demo.component.constant';
@@ -38,14 +38,46 @@ import { formData } from './demo.component.constant';
   styleUrls: ['./demo.component.scss'],
 })
 export class DemoComponent extends FormComponent implements OnInit {
-  constructor(protected override fb: FormBuilder) {
-    super(fb);
+  constructor(
+    protected override fb: FormBuilder,
+    private appService: AppService,
+    protected override cdr: ChangeDetectorRef,
+    protected snackBar: MatSnackBar
+  ) {
+    super(fb, cdr);
+    this.appService.getIndex();
   }
 
   override initFind() {
-    this.formData = formData;
-    super.initFind();
+    this.appService.getHome().subscribe(
+      (data) => {
+        this.formData = formData;
+        this.generateFormValue(data);
+        super.initFind();
+      },
+      (error) => {
+        this.snackBar.open(error.error.error, 'OK');
+      }
+    );
   }
+
+  override onFormSubmit() {
+    super.onFormSubmit();
+    this.appService.updateHome(this.data).subscribe(
+      (data: any) => {
+        this.snackBar.open(data.message, 'OK');
+        console.log(data.message);
+      },
+      (error) => {
+        this.snackBar.open(error.error.error, 'OK');
+      }
+    );
+  }
+
+  // getValue(value: any) {
+  //   console.log('songming', value);
+  //   return value;
+  // }
 
   override ngOnInit(): void {
     super.ngOnInit();
@@ -94,10 +126,6 @@ export class DemoComponent extends FormComponent implements OnInit {
   radioLabel = radioLabel;
   radioOptions = radioOptions;
 
-  //table
-  tableDataSource = tableDataSource;
-  tableHeaders = tableHeaders;
-
   //toolbar
   toolbarItems = toolbarItems;
 
@@ -112,6 +140,8 @@ export class DemoComponent extends FormComponent implements OnInit {
   }
 
   printForm() {
+    this.appService.getIndex();
+    console.log(this.form.get('input')?.value);
     console.log(this.form);
   }
 

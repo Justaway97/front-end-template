@@ -37,6 +37,15 @@ import { RadioButtonComponent } from './radio-button/radio-button.component';
 import { TableComponent } from './table/table.component';
 import { DatePipe } from '@angular/common';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { FormButtonComponent } from './form-button/form-button.component';
+import { DemoTableComponent } from './demo-table/demo-table.component';
+import { DemoTableModalComponent } from './demo-table-modal/demo-table-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DialogHeaderComponent } from './dialog-header/dialog-header.component';
+import { AppHttpInterceptor } from './interceptors/app-http.interceptor';
 
 @NgModule({
   declarations: [
@@ -57,10 +66,16 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     RadioButtonComponent,
     TableComponent,
     ToolbarComponent,
+    FormButtonComponent,
+    DemoTableComponent,
+    DemoTableModalComponent,
+    DialogHeaderComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
+    MatSnackBarModule,
     MatInputModule,
     MatAutocompleteModule,
     BrowserAnimationsModule,
@@ -72,6 +87,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     MatIconModule,
     MatToolbarModule,
     MatButtonToggleModule,
+    MatDialogModule,
     MatCheckboxModule,
     MatRadioModule,
     MatChipsModule,
@@ -79,8 +95,12 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     MatDatepickerModule,
     MatMenuModule,
     MatNativeDateModule,
+    AppRoutingModule,
   ],
-  providers: [DatePipe],
+  providers: [
+    DatePipe,
+    { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

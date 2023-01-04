@@ -1,10 +1,9 @@
 export const formData = {
   autoComplete: '',
   buttonToggle: '',
-  checkbox: ['Three'],
-  datePicker: Number,
+  checkbox: [],
+  datePicker: new Date(),
   multiAutoComplete: [],
   input: '',
-  radio: 'yes',
-  tableCheckbox: [],
+  radio: '',
 };

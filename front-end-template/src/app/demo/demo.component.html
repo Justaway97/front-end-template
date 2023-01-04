@@ -4,95 +4,96 @@
 <div>
   <button mat-icon-button (click)="printForm()">print form</button>
 </div>
-<div>
-  <app-auto-complete
-    [options]="autoCompleteOptions"
-    [placeholder]="autoCompletePlaceholder"
-    [disabled]="autoCompleteDisabled"
-    [label]="autoCompleteLabel"
-    (change)="onChange($event, 'autoComplete')"
-  ></app-auto-complete>
-</div>
-<div>
-  <app-button
-    [tooltip]="buttonTooltip"
-    [tooltipPosition]="buttonTooltipPosition"
-    [label]="buttonLabel"
-    (click)="buttonClick($event)"
-  ></app-button>
-</div>
-<div>
-  <app-button
-    [tooltip]="buttonTooltip"
-    [tooltipPosition]="buttonTooltipPosition"
-    [label]="buttonIconLabel"
-    (click)="buttonClick($event)"
-    [isIcon]="true"
-  ></app-button>
-</div>
-<div>
-  <app-button-toggle
-    [options]="buttonToggleOptions"
-    (change)="onChange($event, 'buttonToggle')"
-  ></app-button-toggle>
-</div>
-<div>
-  <app-checkbox
-    [label]="checkboxLabel"
-    [options]="checkboxOptions"
-    [value]="form.get('checkbox')?.value"
-    (change)="onChange($event, 'checkbox')"
-  ></app-checkbox>
-</div>
-<div>
-  <app-checkbox
-    [label]="checkboxLabel1"
-    [options]="checkboxOptions1"
-    [value]="checkboxChecked1"
-    (change)="onCheckboxChange($event)"
-  ></app-checkbox>
-</div>
-<div>
-  <app-multi-auto-complete
-    [options]="multiAutoCompleteOptions"
-    [label]="multiAutoCompleteLabel"
-    [placeholder]="multiAutoCompletePlaceholder"
-    (change)="onChange($event, 'multiAutoComplete')"
-  ></app-multi-auto-complete>
-</div>
-<div>
-  <app-date-picker
-    [label]="datePickerLabel"
-    [placeholder]="datePickerPlaceholder"
-    value="1667488241753"
-    (change)="onChange($event, 'datePicker')"
-  ></app-date-picker>
-</div>
+<form [formGroup]="form" novalidate style="height: 100%">
+  <div style="padding: 1%">
+    <app-form-button
+      submitLabel="update"
+      (submit)="onFormSubmit()"
+      (reset)="resetForm()"
+    ></app-form-button>
+  </div>
+  <div>
+    <app-auto-complete
+      optionRule="AUTO_COMPLETE"
+      [placeholder]="autoCompletePlaceholder"
+      [disabled]="autoCompleteDisabled"
+      [label]="autoCompleteLabel"
+      [value]="form.get('autoComplete')?.value"
+      (change)="onChange($event, 'autoComplete')"
+    ></app-auto-complete>
+  </div>
+  <div>
+    <app-button
+      [tooltip]="buttonTooltip"
+      [tooltipPosition]="buttonTooltipPosition"
+      [label]="buttonIconLabel"
+      (click)="buttonClick($event)"
+      [isIcon]="true"
+    ></app-button>
+  </div>
+  <div>
+    <app-button-toggle
+      optionRule="BUTTON_TOGGLE"
+      [value]="form.get('buttonToggle')?.value"
+      (change)="onChange($event, 'buttonToggle')"
+    ></app-button-toggle>
+  </div>
+  <div>
+    <app-checkbox
+      [label]="checkboxLabel"
+      optionRule="CHECKBOX"
+      [value]="form.get('checkbox')?.value"
+      (change)="onChange($event, 'checkbox')"
+    ></app-checkbox>
+  </div>
+  <div>
+    <app-checkbox
+      [label]="checkboxLabel1"
+      [options]="checkboxOptions1"
+      [value]="checkboxChecked1"
+      (change)="onCheckboxChange($event)"
+    ></app-checkbox>
+  </div>
+  <div>
+    <app-multi-auto-complete
+      optionRule="AUTO_COMPLETE"
+      [label]="multiAutoCompleteLabel"
+      [placeholder]="multiAutoCompletePlaceholder"
+      [value]="form.get('multiAutoComplete')?.value"
+      (change)="onChange($event, 'multiAutoComplete')"
+    ></app-multi-auto-complete>
+  </div>
+  <div>
+    <app-date-picker
+      [label]="datePickerLabel"
+      [placeholder]="datePickerPlaceholder"
+      [value]="form.get('datePicker')?.value"
+      (change)="onChange($event, 'datePicker')"
+    ></app-date-picker>
+  </div>
 
-<div>
-  <app-input
-    [label]="inputLabel"
-    [placeholder]="inputPlaceholder"
-    (change)="onChange($event, 'input')"
-  ></app-input>
-</div>
-<div>
-  <app-menu
-    icon="more_vert"
-    [options]="menuOptions"
-    (change)="menuOutput($event)"
-  ></app-menu>
-</div>
-<div>
-  <app-radio-button
-    [label]="radioLabel"
-    [value]="form.get('radio')?.value"
-    [options]="radioOptions"
-  ></app-radio-button>
-</div>
-<div>
-  <app-table
-    [dataSource]="tableDataSource"
-    [headers]="tableHeaders"
-  ></app-table>
-</div>
+  <div>
+    <app-input
+      [label]="inputLabel"
+      [placeholder]="inputPlaceholder"
+      [value]="form.get('input')?.value"
+      (inputChange)="onChange($event, 'input')"
+    ></app-input>
+  </div>
+  <div>
+    <app-menu
+      icon="more_vert"
+      [options]="menuOptions"
+      (change)="menuOutput($event)"
+    ></app-menu>
+  </div>
+  <div>
+    <app-radio-button
+      [label]="radioLabel"
+      [value]="form.get('radio')?.value"
+      optionRule="YESNO"
+      (change)="onChange($event, 'radio')"
+    ></app-radio-button>
+  </div>
+</form>
+<!-- <app-demo-table></app-demo-table> -->

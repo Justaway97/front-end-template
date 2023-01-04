@@ -1,5 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { BaseComponent } from '../base/base.component';
+import { AppService } from '../services/app.service';
+import { CodeService } from '../services/code.service';
 
 @Component({
   selector: 'app-button',
@@ -11,8 +14,13 @@ export class ButtonComponent extends BaseComponent {
   @Input() tooltipPosition: any;
   @Input() color: string = 'primary';
   @Input() isIcon: boolean = false;
-  constructor() {
-    super();
+  constructor(
+    protected override appService: AppService,
+    protected override snackBar: MatSnackBar,
+    protected override cdr: ChangeDetectorRef,
+    protected override codeService: CodeService
+  ) {
+    super(appService, snackBar, cdr, codeService);
   }
 
   override ngOnInit(): void {}

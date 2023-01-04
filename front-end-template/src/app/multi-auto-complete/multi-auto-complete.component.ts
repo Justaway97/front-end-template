@@ -1,8 +1,19 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 import { BaseComponent } from '../base/base.component';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { AppService } from '../services/app.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CodeService } from '../services/code.service';
 
 @Component({
   selector: 'app-multi-auto-complete',
@@ -13,27 +24,42 @@ export class MultiAutoCompleteComponent extends BaseComponent {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   myFormControl = new FormControl('');
   filteredOptions: Observable<string[]>;
-  @Input() options: string[];
 
   @ViewChild('optionInput') optionInput: ElementRef<HTMLInputElement>;
 
-  constructor() {
-    super();
-    this.value = [];
-    this.filteredOptions = this.myFormControl.valueChanges.pipe(
-      startWith(''),
-      map((value) => {
-        if (typeof value === 'string') {
-          return this.options.filter((option) => {
-            return option.toLowerCase().includes(value.toLowerCase());
-          });
-        }
-        return [];
-      })
-    );
+  constructor(
+    protected override appService: AppService,
+    protected override snackBar: MatSnackBar,
+    protected override cdr: ChangeDetectorRef,
+    protected override codeService: CodeService
+  ) {
+    super(appService, snackBar, cdr, codeService);
   }
 
-  override ngOnInit(): void {}
+  override ngOnInit(): void {
+    if (this.value) {
+      this.myFormControl = new FormControl(this.value);
+    }
+  }
+
+  override ngOnChanges(changes: SimpleChanges): void {
+    super.ngOnChanges(changes);
+    setTimeout(() => {
+      if (this.options) {
+        this.filteredOptions = this.myFormControl.valueChanges.pipe(
+          startWith(''),
+          map((value) => {
+            if (typeof value === 'string') {
+              return this.options.filter((option) => {
+                return option.toLowerCase().includes(value.toLowerCase());
+              });
+            }
+            return [];
+          })
+        );
+      }
+    });
+  }
 
   remove(option: string): void {
     const index = this.value.indexOf(option);
@@ -41,6 +67,7 @@ export class MultiAutoCompleteComponent extends BaseComponent {
     if (index >= 0) {
       this.value.splice(index, 1);
     }
+    this.formatAndReturnValue();
   }
 
   override valueChanged(event: any): void {

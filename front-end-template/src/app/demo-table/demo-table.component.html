@@ -1,0 +1,27 @@
+<div class="right">
+  <app-button
+    label="add_box"
+    (click)="add($event)"
+    [isIcon]="true"
+  ></app-button>
+  <app-button
+    label="delete"
+    (click)="delete($event)"
+    [isIcon]="true"
+  ></app-button>
+</div>
+<div>
+  <app-table
+    [dataSource]="tableDataSource"
+    [headers]="tableHeaders"
+    (onTableChange)="onTableValueChange($event)"
+  ></app-table>
+</div>
+<app-form-button
+  submitLabel="save"
+  position="right"
+  layout="horizontal"
+  (submit)="onFormSubmit()"
+  (reset)="resetForm()"
+>
+</app-form-button>

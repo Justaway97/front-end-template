@@ -1,1 +1,7 @@
-<app-demo></app-demo>
+<ng-container *ngIf="loading">
+  <div id="pause">
+    <div id="spinner"></div>
+  </div>
+</ng-container>
+<!-- <app-demo></app-demo> -->
+<app-demo-table></app-demo-table>

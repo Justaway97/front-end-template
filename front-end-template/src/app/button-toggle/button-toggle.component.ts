@@ -1,5 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { BaseComponent } from '../base/base.component';
+import { AppService } from '../services/app.service';
+import { CodeService } from '../services/code.service';
 
 @Component({
   selector: 'app-button-toggle',
@@ -7,15 +17,14 @@ import { BaseComponent } from '../base/base.component';
   styleUrls: ['./button-toggle.component.scss'],
 })
 export class ButtonToggleComponent extends BaseComponent {
-  @Input() options: string[];
-  constructor() {
-    super();
+  constructor(
+    protected override appService: AppService,
+    protected override snackBar: MatSnackBar,
+    protected override cdr: ChangeDetectorRef,
+    protected override codeService: CodeService
+  ) {
+    super(appService, snackBar, cdr, codeService);
   }
 
   override ngOnInit(): void {}
-
-  override formatAndReturnValue() {
-    this.value = this.value[0];
-    super.formatAndReturnValue();
-  }
 }

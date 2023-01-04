@@ -1,7 +1,15 @@
 import { DatePipe } from '@angular/common';
-import { ChangeDetectorRef, Component, SimpleChange } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { BaseComponent } from '../base/base.component';
+import { AppService } from '../services/app.service';
+import { CodeService } from '../services/code.service';
 
 @Component({
   selector: 'app-date-picker',
@@ -10,25 +18,37 @@ import { BaseComponent } from '../base/base.component';
 })
 export class DatePickerComponent extends BaseComponent {
   dateControl: FormControl;
-  getTomorrow() {}
-  constructor(protected cdr: ChangeDetectorRef, private datePipe: DatePipe) {
-    super();
+
+  constructor(
+    private datePipe: DatePipe,
+    protected override appService: AppService,
+    protected override snackBar: MatSnackBar,
+    protected override cdr: ChangeDetectorRef,
+    protected override codeService: CodeService
+  ) {
+    super(appService, snackBar, cdr, codeService);
     if (this.placeholder === '') {
       this.placeholder = 'Choose a date';
     }
   }
 
   // any value change need to reflect in html can use ngOnChanges to detect the changes
-  ngOnChanges(changes: SimpleChange) {
-    if (typeof this.value !== 'object') {
+  override ngOnChanges(changes: SimpleChanges) {
+    super.ngOnChanges(changes);
+    if (typeof this.value == 'number') {
       this.value = this.datePipe.transform(new Date(+this.value), 'yyyy-MM-dd');
+    } else if (typeof this.value == 'string') {
+      let newDate: any = new Date(this.value.split('T')[0]);
+      this.value = !isNaN(newDate?.getTime())
+        ? this.datePipe.transform(newDate, 'yyyy-MM-dd')
+        : null;
     }
   }
 
   override ngOnInit(): void {}
 
   override formatAndReturnValue() {
-    this.value = (this.value[0].value as Date).getTime();
+    this.value = new Date(this.value).toISOString();
     super.formatAndReturnValue();
   }
 }

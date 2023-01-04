@@ -1,5 +1,16 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AppService } from '../services/app.service';
+import { CodeService } from '../services/code.service';
 
 @Component({
   selector: 'app-base',
@@ -11,21 +22,55 @@ export class BaseComponent implements ControlValueAccessor {
   @Input() placeholder: string = '';
   @Input() disabled = false;
   @Input() label: string;
+  @Input() options: any[];
+  @Input() optionRule: string;
+  optionLoading = false;
 
   @Input() value: any;
-  constructor() {}
+  constructor(
+    protected appService: AppService,
+    protected snackBar: MatSnackBar,
+    protected cdr: ChangeDetectorRef,
+    protected codeService: CodeService
+  ) {}
 
   ngOnInit(): void {}
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.optionRule && !this.options && !this.optionLoading) {
+      this.optionLoading = true;
+      if (this.codeService.isCodeTypeExist(this.optionRule)) {
+        this.options = this.codeService.getCodes(this.optionRule);
+      } else {
+        this.appService.getOptions({ code_type: this.optionRule }).subscribe(
+          (data: any) => {
+            this.options = data.data.map((d: any) => d.code);
+            this.codeService.addCode(data.data);
+            this.optionLoading = false;
+            this.ngOnChanges(changes);
+          },
+          (error) => {
+            this.snackBar.open(error.error.error, 'OK');
+            this.optionLoading = false;
+          }
+        );
+      }
+    }
+  }
+
   arrayValueChanged(value: any) {
-    console.log(value);
     if (!this.value.includes(value)) {
       this.value.push(value);
+    } else if (this.value.includes(value)) {
+      this.value = this.value.filter((v: any) => v != value);
     }
     this.formatAndReturnValue();
   }
 
   valueChanged(...value: any) {
+    if (value instanceof Array) {
+      value = value[0];
+    }
     this.onChange(value);
     this.onTouched();
     this.value = value;
@@ -33,7 +78,6 @@ export class BaseComponent implements ControlValueAccessor {
   }
 
   formatAndReturnValue() {
-    console.log(this.value);
     this.change.emit(this.value);
   }
 

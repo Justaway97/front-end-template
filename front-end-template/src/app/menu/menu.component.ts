@@ -6,7 +6,10 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { BaseComponent } from '../base/base.component';
+import { AppService } from '../services/app.service';
+import { CodeService } from '../services/code.service';
 
 @Component({
   selector: 'app-menu',
@@ -15,11 +18,15 @@ import { BaseComponent } from '../base/base.component';
 })
 export class MenuComponent extends BaseComponent {
   @Input() icon: any;
-  @Input() options: any[];
   loading = true;
 
-  constructor(private cdr: ChangeDetectorRef) {
-    super();
+  constructor(
+    protected override appService: AppService,
+    protected override snackBar: MatSnackBar,
+    protected override cdr: ChangeDetectorRef,
+    protected override codeService: CodeService
+  ) {
+    super(appService, snackBar, cdr, codeService);
   }
 
   override ngOnInit(): void {

@@ -9,7 +9,7 @@
     [value]="value"
     matInput
     [matDatepicker]="datepicker"
-    (dateChange)="valueChanged($event)"
+    (dateChange)="valueChanged($event.value)"
   />
   <mat-hint>MM/DD/YYYY</mat-hint>
   <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
