@@ -29,6 +29,7 @@ export class TableComponent implements OnInit {
   constructor() {}
 
   ngOnChanges(changes: SimpleChange) {
+    console.log(this.dataSource);
     this.dataSource.forEach((data, index) => {
       if (data.select?.value === true) {
         this.checkboxValue.push(index);

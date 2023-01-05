@@ -46,6 +46,8 @@ import { DemoTableModalComponent } from './demo-table-modal/demo-table-modal.com
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogHeaderComponent } from './dialog-header/dialog-header.component';
 import { AppHttpInterceptor } from './interceptors/app-http.interceptor';
+import { DemoTableModal2Component } from './demo-table-modal2/demo-table-modal2.component';
+import { DemoTable2Component } from './demo-table2/demo-table2.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +72,8 @@ import { AppHttpInterceptor } from './interceptors/app-http.interceptor';
     DemoTableComponent,
     DemoTableModalComponent,
     DialogHeaderComponent,
+    DemoTableModal2Component,
+    DemoTable2Component,
   ],
   imports: [
     BrowserModule,

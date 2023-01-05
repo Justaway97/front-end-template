@@ -24,6 +24,7 @@ export class BaseComponent implements ControlValueAccessor {
   @Input() label: string;
   @Input() options: any[];
   @Input() optionRule: string;
+  @Input() authorize: string;
   optionLoading = false;
 
   @Input() value: any;

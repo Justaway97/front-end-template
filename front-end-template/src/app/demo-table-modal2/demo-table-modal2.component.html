@@ -1,0 +1,57 @@
+<app-dialog-header
+  (onDialogClose)="onDialogClose()"
+  title="Add a New Demo Table Record"
+></app-dialog-header>
+<mat-dialog-content class="mat-typography">
+  <form class="form" [formGroup]="form" novalidate style="height: 100%">
+    <div>
+      <app-input
+        label="Input"
+        placeholder="Insert a Text"
+        [value]="form.get('input')?.value"
+        (inputChange)="onChange($event, 'input')"
+      ></app-input>
+    </div>
+    <div>
+      <app-auto-complete
+        optionRule="AUTO_COMPLETE"
+        label="Auto Complete"
+        [value]="form.get('autoComplete')?.value"
+        (change)="onChange($event, 'autoComplete')"
+      ></app-auto-complete>
+    </div>
+    <div>
+      <app-button-toggle
+        label="Button Toggle"
+        optionRule="BUTTON_TOGGLE"
+        [value]="form.get('buttonToggle')?.value"
+        (change)="onChange($event, 'buttonToggle')"
+      ></app-button-toggle>
+    </div>
+    <div>
+      <app-multi-auto-complete
+        optionRule="AUTO_COMPLETE"
+        label="Multi Auto Complete"
+        [value]="form.get('multiAutoComplete')?.value"
+        (change)="onChange($event, 'multiAutoComplete')"
+      ></app-multi-auto-complete>
+    </div>
+    <div>
+      <app-date-picker
+        label="Date Picker"
+        placeholder="Select a Date"
+        [value]="form.get('datePicker')?.value"
+        (change)="onChange($event, 'datePicker')"
+      ></app-date-picker>
+    </div>
+    <div>
+      <app-form-button
+        submitLabel="save"
+        position="left"
+        layout="horizontal"
+        (submit)="onFormSubmit()"
+        (reset)="resetForm()"
+      ></app-form-button>
+    </div>
+  </form>
+</mat-dialog-content>

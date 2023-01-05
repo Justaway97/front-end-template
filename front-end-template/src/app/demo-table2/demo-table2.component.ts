@@ -1,25 +1,23 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { DemoTableModalComponent } from '../demo-table-modal/demo-table-modal.component';
+import { DemoTableModal2Component } from '../demo-table-modal2/demo-table-modal2.component';
 import { FormComponent } from '../form/form.component';
 import { AppService } from '../services/app.service';
 import {
   dataSource,
   formData,
   headers,
-  tableDataSource,
-  tableHeaders,
-} from './demo-table.component.constant';
+} from './demo-table2.component.constant';
 
 @Component({
-  selector: 'app-demo-table',
-  templateUrl: './demo-table.component.html',
-  styleUrls: ['./demo-table.component.scss'],
+  selector: 'app-demo-table2',
+  templateUrl: './demo-table2.component.html',
+  styleUrls: ['./demo-table2.component.scss'],
 })
-export class DemoTableComponent extends FormComponent implements OnInit {
+export class DemoTable2Component extends FormComponent implements OnInit {
   constructor(
     protected override fb: FormBuilder,
     private appService: AppService,
@@ -36,6 +34,7 @@ export class DemoTableComponent extends FormComponent implements OnInit {
   originalTableDataSource: any = JSON.parse(
     JSON.stringify(this.tableDataSource[0])
   );
+  newData: any;
 
   override ngOnInit() {
     this.tableDataSource = JSON.parse(JSON.stringify(dataSource));
@@ -67,7 +66,7 @@ export class DemoTableComponent extends FormComponent implements OnInit {
       }
       index++;
     });
-    this.tableDataSource = [...this.tableDataSource];
+    this.tableDataSource = [...this.tableDataSource]; // force refresh data to trigger table component onChange
     console.log(this.tableDataSource);
     super.postFind();
   }
@@ -75,6 +74,7 @@ export class DemoTableComponent extends FormComponent implements OnInit {
   override initFind(): void {
     this.appService.get('table').then(
       (data: any) => {
+        this.formatData(data);
         this.formData = JSON.parse(JSON.stringify(formData));
         for (let i = 1; i < data.length; i++) {
           this.formData.data.push(JSON.parse(JSON.stringify(formData.data[0])));
@@ -103,12 +103,13 @@ export class DemoTableComponent extends FormComponent implements OnInit {
   }
 
   add($event: any) {
-    const dialogRef = this.dialog.open(DemoTableModalComponent, {
+    const dialogRef = this.dialog.open(DemoTableModal2Component, {
       maxHeight: '90vh',
       // width: '60%',
     });
     dialogRef.afterClosed().subscribe((event: any) => {
-      if (event.event == 'Add') {
+      if (event.event == 'Add' && event.data) {
+        this.newData = event.data;
         this.ngOnInit();
       }
     });
@@ -118,15 +119,23 @@ export class DemoTableComponent extends FormComponent implements OnInit {
     let selectedId: any = [];
     let index = 0;
     this.form.value.data.forEach((value: any) => {
-      if (value.select === true) {
+      if (value.select === true && this.data.data[index].uuid) {
         selectedId.push(this.data.data[index].uuid);
       }
       index++;
     });
-    this.appService
-      .delete('table/delete', { id: selectedId.toString() })
-      .then(() => {
+    this.appService.delete('table/delete', { id: selectedId.toString() }).then(
+      (data: any) => {
         this.ngOnInit();
-      });
+      },
+      (error: any) => {}
+    );
+  }
+
+  formatData(data: any) {
+    if (this.newData) {
+      data.push(JSON.parse(JSON.stringify(this.newData)));
+      this.newData = null;
+    }
   }
 }

@@ -83,6 +83,7 @@ export class FormComponent implements OnInit {
     this.data = data;
     this.generate(data, this.formData);
     this.originalFormData = JSON.parse(JSON.stringify(this.formData));
+    console.log(this.originalFormData);
   }
 
   generate(data: any, formData: any) {
@@ -139,10 +140,10 @@ export class FormComponent implements OnInit {
   }
 
   onFormSubmit() {
-    this.formatFormValue(this.data, this.form.value);
+    this.formatFormValue(this.data, this.form.value, this.originalFormData);
   }
 
-  formatFormValue(data: any, form: any) {
+  formatFormValue(data: any, form: any, originalFormData: any) {
     let keys = Object.keys(form);
     for (const key of keys) {
       if (form[key] instanceof Array && form[key][0]) {
@@ -156,15 +157,19 @@ export class FormComponent implements OnInit {
           ) {
             this.formatFormValue(
               data[this.formatKeyWithUnderScore(key)][i],
-              form[key][i]
+              form[key][i],
+              originalFormData[key][0]
             );
           }
         }
-      } else
-        data[this.formatKeyWithUnderScore(key)] = form[key]
-          ? form[key].toString()
-          : null;
+      } else {
+        data[this.formatKeyWithUnderScore(key)] =
+          form[key] && form[key] !== originalFormData[key]
+            ? form[key].toString()
+            : null;
+      }
     }
+    console.log('stop');
   }
 
   clearAllData() {
