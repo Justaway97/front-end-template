@@ -49,27 +49,22 @@ export class DemoComponent extends FormComponent implements OnInit {
   }
 
   override initFind() {
-    this.appService.getHome().subscribe(
-      (data) => {
-        this.formData = formData;
-        this.generateFormValue(data);
-        super.initFind();
-      },
-      (error) => {
-        this.snackBar.open(error.error.error, 'OK');
-      }
-    );
+    this.appService.get('home').then((data) => {
+      this.formData = formData;
+      this.generateFormValue(data);
+      super.initFind();
+    });
   }
 
   override onFormSubmit() {
     super.onFormSubmit();
     this.appService.updateHome(this.data).subscribe(
       (data: any) => {
-        this.snackBar.open(data.message, 'OK');
+        this.snackBar.open(data.message, 'OK', { duration: 3 * 1000 });
         console.log(data.message);
       },
       (error) => {
-        this.snackBar.open(error.error.error, 'OK');
+        this.snackBar.open(error.error.error, 'OK', { duration: 3 * 1000 });
       }
     );
   }

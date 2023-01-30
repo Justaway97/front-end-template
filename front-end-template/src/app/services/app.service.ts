@@ -8,9 +8,14 @@ import { URL } from './app.service.constant';
 })
 export class AppService {
   private authentication: any;
+  private user: any;
 
   setAuthentication(authentication: any) {
     this.authentication = authentication;
+  }
+
+  setUser(user: any) {
+    this.user = user;
   }
 
   constructor(private http: HttpClient, protected snackBar: MatSnackBar) {}
@@ -26,12 +31,12 @@ export class AppService {
           // update authentication
           // console.log(data.headers.get('Content-Length'));
           if (data.body.message) {
-            this.snackBar.open(data.body.message, 'OK');
+            this.snackBar.open(data.body.message, 'OK', { duration: 3 * 1000 });
           }
           resolve(data.body.data);
         },
         (error) => {
-          this.snackBar.open(error.error.error, 'OK');
+          this.snackBar.open(error.error.error, 'OK', { duration: 3 * 1000 });
           reject(null);
         }
       );
@@ -47,12 +52,14 @@ export class AppService {
             // update authentication
             // console.log(data.headers.get('Content-Length'));
             if (data.body.message) {
-              this.snackBar.open(data.body.message, 'OK');
+              this.snackBar.open(data.body.message, 'OK', {
+                duration: 3 * 1000,
+              });
             }
             resolve(data.body.data);
           },
           (error) => {
-            this.snackBar.open(error.error.error, 'OK');
+            this.snackBar.open(error.error.error, 'OK', { duration: 3 * 1000 });
             reject(null);
           }
         );

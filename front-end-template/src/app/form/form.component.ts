@@ -83,7 +83,6 @@ export class FormComponent implements OnInit {
     this.data = data;
     this.generate(data, this.formData);
     this.originalFormData = JSON.parse(JSON.stringify(this.formData));
-    console.log(this.originalFormData);
   }
 
   generate(data: any, formData: any) {

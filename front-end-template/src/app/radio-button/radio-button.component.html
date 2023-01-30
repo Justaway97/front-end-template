@@ -9,6 +9,7 @@
       class="option"
       *ngFor="let option of options"
       [value]="option"
+      [checked]="value == option"
       (change)="valueChanged(option)"
     >
       {{ option }}

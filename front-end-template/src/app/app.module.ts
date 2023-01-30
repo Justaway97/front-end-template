@@ -48,6 +48,8 @@ import { DialogHeaderComponent } from './dialog-header/dialog-header.component';
 import { AppHttpInterceptor } from './interceptors/app-http.interceptor';
 import { DemoTableModal2Component } from './demo-table-modal2/demo-table-modal2.component';
 import { DemoTable2Component } from './demo-table2/demo-table2.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 @NgModule({
   declarations: [
@@ -100,6 +102,7 @@ import { DemoTable2Component } from './demo-table2/demo-table2.component';
     MatMenuModule,
     MatNativeDateModule,
     AppRoutingModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
   ],
   providers: [
     DatePipe,

@@ -22,13 +22,13 @@
           <app-menu
             [icon]="item.text"
             [options]="item.options"
-            (change)="menuOutput($event)"
+            (change)="menuOutput(item.text)"
           ></app-menu>
         </ng-container>
         <ng-container *ngIf="!item.options">
           <app-button
             [label]="item.text"
-            (click)="buttonClick($event)"
+            (click)="buttonClick(item.text)"
             [isIcon]="true"
           ></app-button>
         </ng-container>

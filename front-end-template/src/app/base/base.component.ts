@@ -51,7 +51,7 @@ export class BaseComponent implements ControlValueAccessor {
             this.ngOnChanges(changes);
           },
           (error) => {
-            this.snackBar.open(error.error.error, 'OK');
+            this.snackBar.open(error.error.error, 'OK', { duration: 3 * 1000 });
             this.optionLoading = false;
           }
         );
